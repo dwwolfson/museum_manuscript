@@ -1,0 +1,55 @@
+---
+title: "Technical_Considerations"
+output: 
+  bookdown::word_document2:
+    fig_caption: yes
+    reference_docx: ../StylesTemplate.docx
+    always_allow_html: true
+bibliography: "../Reddy_museum_collab.bib"
+csl: http://www.zotero.org/styles/journal-of-ornithology
+link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+```{r setup-options, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      fig.fullwidth=TRUE, 
+                      fig.align="center")
+```
+
+The technical challenges of using electronic databases to query sample information may be an additional hurdle in the process of requesting samples from museums.
+@wieczorek2012 state that for biodiversity information to be used in broad-scale analyses it must be in digital form, accessible, discoverable, and integrated. The last two of these terms are often given insufficient attention. Even if museums have digitized their collections and made them publicly available, other challenges including an overabundance of search platforms, inconsistent use of taxonomy, and confusing database structure increases the difficulty of use. However, significant gains are being made in the field of biodiversity informatics@krishtalka2000. For example, the increasing occurrence of converting information to a machine-readable format is facilitating the identification and transfer of data [@wilkinson2016].
+
+There can be a tension between easy to use, idiosyncratic, local efforts versus rigorous, standardized, reproducible alternatives.
+Necessary steps to bridge this divide include defining clear and consistent data standards, developing widely accessible tools to reproducibly document and query collections records, and use of standardized file formats and open-access software.
+Additionally, familiarity with some core data management and transfer concepts provides users with valuable skills for working with collections databases.
+
+### How easily can users find sample information? (Findability)
+
+#### API usage
+
+Application Programming Interfaces, known as APIs, serve as an intermediary for data transfers between clients and databases.
+Web access to records and associated metadata from digital collections is often provided via remote requests to web APIs, which provide the ability to dynamically query databases while providing script-based automation and reproducibility [@reichman2011; @varela2014]. APIs provide a powerful alternative to graphical user interfaces (GUIs), which let users make download requests based on many 'point and click' fields on a web forms but don't provide viable options to document search terms and parameters used. APIs use a standardized set of methods that allow great flexibility in programming language used for requests, and also efficiently use bandwidth, making them a popular choice for data transfer over the internet [@gadelhajr2021]. Most APIs for museum databases use HTTP (Hypertext Transfer Protocol) requests that can output data records in multiple file formats (e.g. JSON, comma-separated text) that can be incorporated into further text filtering workflows or data visualizations [@saran2022].
+
+Many online NHC and aggregation databases offer APIs for the querying and downloading records.
+Two databases with extensive documentation are iDigBio and GBIF, both of which offer APIs specific to the R, python and Ruby programming languages [@chamberlain2017]. Other API tools focus on more domain-specific querying tasks such as working with RDF-compatible data products [@boettiger2018] and using the SPARQL query language [@prudhommeaux2013].
+
+### How compatible are different sources? (Interoperability and Reusability)
+
+#### Data standards
+
+Data about specimens in natural history collections (NHCs) are increasingly available online, though their compilation and compatibility is only possible via widely accepted metadata standards.
+Fortunately, taxonomic and organizational data standards and associated client-server exchange protocols are becoming widely adopted by the natural history collections community.
+The two most common examples include 1) Darwin Core (primarily North American) and the Distributed Generic Information Retrieval (DiGIR) protocol, a relatively newer set of standards that use the RDF format to consolidate terms collectively shared throughout NHCs without relational structure (flat files), and 2) Access to Biological Collection Data (ABCD; primarily European) and the BioCASE protocol, an older set of standards that are highly structured and seek to capture the wide variety of biodiversity data and associated schemas [@graham2004].
+
+#### Obscure record queries
+
+Integrating data records that are heterogenous in concept and varying in file format can be a challenge.
+The wide variety of content in NHCs necessitate a consistent but also flexible framework for data abstraction.
+A working solution to this challenge is semantic annotation, which typically uses a Resource Description Framework (RDF), an XML based language that provides semantic interoperability, to attach machine-readable metadata (as opposed to classic text annotation) to text documents or other unstructured content [@loturco2019]. The Semantic Web, widely associated with Web 3.0, allows for relationships between documents and also among data elements within those documents [@pennington2019]. The SPARQL query language directly supports information in RDF form, and allows for the option to query semantic annotation fields [@skevakis2014; @stork2019] .
+
+#### What to do with query output
+
+Many natural history museum databases include records that are georeferenced, allowing data visualization of query results [@janicki2016]. The mapview package in program R provide user-friendly functions to interactively map record coordinates with any combination of user-defined auxiliary data annotated to each point [@appelhans2022]. Mapview functions as a data-driven API for the more extensive leaflet package, which provides additional functionality and customization options [@lovelace2019].
